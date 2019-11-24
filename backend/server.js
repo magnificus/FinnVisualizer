@@ -1,5 +1,10 @@
+
+const regexHelpers = require('./regexHelpers.js');
+const {Apartment} = require("./apartment");
 const express = require('express');
 const cors = require('cors');
+
+
 
 require("isomorphic-fetch")
 require('dotenv').config();
@@ -10,18 +15,28 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-function testFetch(){
+
+var testString = "askjdhaskdkasjdhk  asdvvvv (NORD) fuck you (NOKD) again";
+
+var testRegex = /<NORD/g;
+
+function fetchApartments(){
     (async () => {
-    const response = await fetch('https://google.com');
+    const response = await fetch(process.env.FINN_OSLO);
     const text = await response.text();
-    console.log(text);
+    var matches = text.match(regexHelpers.finnApartmentRegex);
+
+    matches = matches.map(m => regexHelpers.matchToApartment(m));
+    var matchesStrings = matches.map(m => m.desc);
+    console.log(matchesStrings);
+
   })();
-  }
+ }
 
 
 app.listen(port, () => {
-    testFetch();
+    fetchApartments();
 
 
-    console.log(`Server is running on port: ${port}`);
+    //console.log(`Server is running on port: ${port}`);
 });
