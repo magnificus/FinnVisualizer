@@ -27,8 +27,9 @@ function fetchApartments(){
     var matches = text.match(regexHelpers.finnApartmentRegex);
 
     matches = matches.map(m => regexHelpers.matchToApartment(m));
-    var matchesStrings = matches.map(m => m.desc);
-    console.log(matchesStrings);
+    //matches = matches.filter(a => a.isValid());
+    //var matchesStrings = matches.map(m => m.desc);
+    console.log(matches);
 
   })();
  }
