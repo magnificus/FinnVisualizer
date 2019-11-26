@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
+import SimpleMap from './map/SimpleMap'
 
-
-
+const dotenv = require('dotenv');
+dotenv.config();
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         waddup honkey
       </header>
       <p className="App-paragraph">its me, your boy</p>
+      <SimpleMap></SimpleMap>
     </div>
   );
 }
