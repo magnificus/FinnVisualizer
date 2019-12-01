@@ -2,6 +2,8 @@ class Apartment {
     constructor(){
         this.desc = "No description"; 
         this.address = "No address";
+        this.latitude = 0;
+        this.longitude = 0;
     }
 
     isValid(){

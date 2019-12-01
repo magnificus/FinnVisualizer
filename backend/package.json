@@ -17,6 +17,7 @@
     "google-map-react": "^1.1.5",
     "isomorphic-fetch": "^2.2.1",
     "mongoose": "^5.7.11",
+    "node-geocoder": "^3.25.0",
     "regexp": "^1.0.0"
   }
 }

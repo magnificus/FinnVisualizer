@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import SimpleMap from './map/SimpleMap'
+import axios from 'axios';
 
 const dotenv = require('dotenv');
 dotenv.config();

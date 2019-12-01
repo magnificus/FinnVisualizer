@@ -1,6 +1,4 @@
 
-const regexHelpers = require('./regexHelpers.js');
-const {Apartment} = require("./apartment");
 const express = require('express');
 const cors = require('cors');
 
@@ -15,29 +13,36 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+var NodeGeocoder = require('node-geocoder');
 
-var testString = "askjdhaskdkasjdhk  asdvvvv (NORD) fuck you (NOKD) again";
+var options = {
+    provider: 'google',
+   
+    // Optional depending on the providers
+    httpAdapter: 'https', // Default
+    apiKey: process.env.GOOGLE_MAPS_API_KEY, // for Mapquest, OpenCage, Google Premier
+    formatter: null         // 'gpx', 'string', ...
+  };
 
-var testRegex = /<NORD/g;
 
-function fetchApartments(){
-    (async () => {
-    const response = await fetch(process.env.FINN_OSLO);
-    const text = await response.text();
-    var matches = text.match(regexHelpers.finnApartmentRegex);
 
-    matches = matches.map(m => regexHelpers.matchToApartment(m));
-    //matches = matches.filter(a => a.isValid());
-    //var matchesStrings = matches.map(m => m.desc);
-    console.log(matches);
-
-  })();
- }
-
+ const mapRouter = require('./routes/map')
+ app.use("/map", mapRouter);
 
 app.listen(port, () => {
-    fetchApartments();
 
 
-    //console.log(`Server is running on port: ${port}`);
+    fetchApartments().then(function(res){
+        var geocoder = NodeGeocoder(options);
+        console.log("length: " + res.length);
+
+
+    }).catch(function(err){
+
+    }
+    );
+
+    //console.log()
+
+    console.log(`Server is running on port: ${port}`);
 });
