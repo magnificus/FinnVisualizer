@@ -2,23 +2,21 @@ const {Apartment} = require("../apartment");
 
 
 // returns an unfiltered apartment "unit"
-//const finnApartmentRegex = /div class=\"ads__unit__content\">.*?<\/a>/s;
 const finnApartmentRegex = /<article.*?<\/article>/gs;
 
 const descRegex = /data-search-resultitem>(.*)<\/a>/s;
-const addressRegex = /<span class=\"ads__unit__content__details\">(.*?)<\/span>/s;
-
-    //<span class="ads__unit__content__details">
-    //            <span>Lørenveien 62A, Oslo</span>
-    //</span>
+const addressRegex = /<div class=\"ads__unit__content__details(.*?)<\/div>/s;
 
 function getApartmentDescription(input){
     var desc = input.match(descRegex);
+    //console.log("input desc:" + input);
     if (desc){
         desc = desc[0].replace("data-search-resultitem>","");
         desc = desc.replace("</a>", "");
         desc = desc.trim();
         return desc;
+    } else{
+        console.log("Unable to get desc");
     }
 
     return "No Description";
@@ -27,12 +25,19 @@ function getApartmentDescription(input){
 
 
 function getApartmentAddress(input) {
-    var address = input.match(/<span>.*?<\/span>/s);
+    //console.log("input add: " + input);
+    var address = input.match(addressRegex);
     if (address){
         address = address[0];
-        address = address.replace("<span>", "");
-        address = address.replace("</span>", "");
+        address = address.replace("<div class=\"ads__unit__content__details\">", "");
+        address = address.replace("<div>", "");
+        address = address.replace("</div>", "");
         address = address.trim();
+        //console.log("COOL ADDRESS BRO, AND ITS: " + address);
+        return address;
+    } else{
+        console.log("Unable to get address");
+        return "No address;"
     }
     return address;
 }

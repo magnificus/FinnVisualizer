@@ -9,6 +9,12 @@ dotenv.config();
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
  
 class SimpleMap extends Component {
+
+  constructor(){
+    super();
+    //this.setState({apartments : {}});
+  }
+
   static defaultProps = {
     center: {
       lat: 59.9,
@@ -16,7 +22,29 @@ class SimpleMap extends Component {
     },
     zoom: 11
   };
- 
+  
+
+  apartmentMarkers(){
+
+
+    if (this.state == undefined){
+      return;
+    } else{
+      console.log("rendering apartments");
+      return this.state.apartments.map(apartment => {
+        
+        return <AnyReactComponent
+        lat={apartment.latitude}
+        lng={apartment.longitude}
+        text={"APARTMAN"}
+      />
+      });
+
+    }
+    
+
+  }
+
   render() {
     return (
       // Important! Always set the container height explicitly
@@ -26,25 +54,24 @@ class SimpleMap extends Component {
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
-          <AnyReactComponent
-            lat={59.9}
-            lng={10.67}
-            text="MarkerMan"
-          />
+          {this.apartmentMarkers()}
+     
         </GoogleMapReact>
       </div>
     );
   }
-
 componentDidMount() {
   console.log("sending request");
   axios.get('http://localhost:5000/map/')
    .then(response => {
      this.setState({ apartments: response.data });
-     console.log("response: " + response.data);
+     var printable = response.data.map(a => JSON.stringify(a));
+     console.log("response: " + printable);
+     this.setState({apartments:response.data});
+     //this.state.apartments = response.data;
    })
    .catch((error) => {
-      console.log(error);
+      console.log("error with request: "  + error);
    })
 }
 
