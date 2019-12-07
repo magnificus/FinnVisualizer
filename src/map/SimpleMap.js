@@ -27,10 +27,11 @@ class SimpleMap extends Component {
   apartmentMarkers(){
 
 
-    if (this.state == undefined){
+    if (this == undefined || this.state == undefined || this.state.apartments == undefined){
       return;
     } else{
       console.log("rendering apartments");
+      //return;
       return this.state.apartments.map(apartment => {
         
         return <AnyReactComponent
