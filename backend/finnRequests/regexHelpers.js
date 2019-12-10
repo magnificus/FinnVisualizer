@@ -1,4 +1,4 @@
-const {Apartment} = require("../apartment");
+const {Apartment} = require("../models/apartment.model");
 
 
 // returns an unfiltered apartment "unit"
@@ -45,13 +45,16 @@ function getApartmentPrice(input) {
             price = price[0];
             price = price.replace("kr", "");
             price = removeTags(price, "div");
-            price = price.trim();
+            //price = price.replace(" ", "");
+            //price = price.trim();
+            //console.log("COOL PRICE: " + price);
             return price;
         }
+        return 1;
         
     } 
     console.log("Unable to get price");
-    return 1;
+    return undefined;
 }
 
 function getApartmentSize(input) {
@@ -70,7 +73,7 @@ function getApartmentSize(input) {
         
     } 
     console.log("Unable to get size");
-    return 1;
+    return undefined;
 }
 
 
@@ -100,7 +103,8 @@ function matchToApartment(input){
     var toReturn = new Apartment();
     toReturn.desc = getApartmentDescription(input);
     toReturn.address = getApartmentAddress(input);
-    toReturn.price = getApartmentPrice(input);
+    toReturn.price = parseFloat(getApartmentPrice(input));
+    //console.log(toReturn.price);
     toReturn.size = getApartmentSize(input);
 
     return toReturn;

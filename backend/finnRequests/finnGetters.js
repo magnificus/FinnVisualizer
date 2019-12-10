@@ -1,4 +1,5 @@
 const regexHelpers = require('./regexHelpers.js');
+const Apartment = require('../models/apartment.model');
 
 
 fetchApartments = async() =>{
@@ -7,6 +8,7 @@ fetchApartments = async() =>{
     var matches = text.match(regexHelpers.finnApartmentRegex);
 
     matches = matches.map(m => regexHelpers.matchToApartment(m));
+    matches = matches.filter(m => Apartment.IsValidApartment(m));
     return matches;
  }
 

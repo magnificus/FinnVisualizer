@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const AnyReactComponent = ({ text }) => <div>{text.toString()}</div>;
  
 class SimpleMap extends Component {
 
@@ -35,9 +35,10 @@ class SimpleMap extends Component {
       return this.state.apartments.map(apartment => {
         
         return <AnyReactComponent
+        key={apartment._id}
         lat={apartment.latitude}
         lng={apartment.longitude}
-        text={"APARTMAN"}
+        text={parseFloat(apartment.price) / parseFloat(apartment.size)}
       />
       });
 
