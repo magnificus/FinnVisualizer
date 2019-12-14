@@ -45,7 +45,8 @@ function getApartmentPrice(input) {
             price = price[0];
             price = price.replace("kr", "");
             price = removeTags(price, "div");
-            //price = price.replace(" ", "");
+            price = price.replace(/-.*/g, '');
+            price = price.replace(/\s/g, '');
             //price = price.trim();
             //console.log("COOL PRICE: " + price);
             return price;
