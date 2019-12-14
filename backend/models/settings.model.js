@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 
-const settingsSchema = new Schema({
+const SettingsSchema = new Schema({
     desc : String,
 }, {
     timestamps: true,
 })
 
-const Apartment = mongoose.model('Apartment', apartmentSchema);
+const DBSettings = mongoose.model('Settings', SettingsSchema);
 
 
-module.exports = {Apartment, IsValidApartment};
+module.exports = DBSettings;

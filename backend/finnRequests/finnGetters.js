@@ -2,11 +2,7 @@ const regexHelpers = require('./regexHelpers.js');
 const Apartment = require('../models/apartment.model');
 var NodeGeocoder = require('node-geocoder');
 
-
-
-
-
-
+require('dotenv').config();
 
   geocodeApartment = async(geocoder, apartment) =>{
       var res = await geocoder.geocode({address: apartment.address});
@@ -32,16 +28,13 @@ fetchApartments = async() =>{
     var matches = text.match(regexHelpers.finnApartmentRegex);
 
     matches = matches.map(m => regexHelpers.matchToApartment(m));
-    console.log("bazingsa");
-    
     matches = matches.filter(m => Apartment.IsValidApartment(m));
     
     
     var geocoder = NodeGeocoder(options);
-    var toReturn;
     await Promise.all(matches.map((apartment) => geocodeApartment(geocoder, apartment))).then(function(res){matches = res;}).catch(function(err){console.log("error: " + err);});
+    await Promise.all(matches.map(apartment => apartment.save()))
 
-   // console.log(matches);
 
     return matches;
  }

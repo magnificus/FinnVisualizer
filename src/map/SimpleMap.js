@@ -38,7 +38,7 @@ class SimpleMap extends Component {
         key={apartment._id}
         lat={apartment.latitude}
         lng={apartment.longitude}
-        text={parseFloat(apartment.price) / parseFloat(apartment.size)}
+        text={Math.round(parseFloat(apartment.price) / parseFloat(apartment.size), 2)}
       />
       });
 

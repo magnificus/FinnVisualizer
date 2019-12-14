@@ -27,7 +27,7 @@ function getApartmentDescription(input){
         desc = desc.trim();
         return desc;
     } else{
-        console.log("Unable to get desc");
+        //console.log("Unable to get desc");
     }
 
     return "No Description";
@@ -54,7 +54,7 @@ function getApartmentPrice(input) {
         return 1;
         
     } 
-    console.log("Unable to get price");
+    //console.log("Unable to get price");
     return undefined;
 }
 
@@ -67,13 +67,14 @@ function getApartmentSize(input) {
         if (size){
             size = size[0];
             size = size.replace("m²", "");
+            size = size.replace(/-.*/g, '');
             size = removeTags(size, "div");
             size = size.trim();
             return size;
         }
         
     } 
-    console.log("Unable to get size");
+    //console.log("Unable to get size");
     return undefined;
 }
 
@@ -92,7 +93,7 @@ function getApartmentAddress(input) {
         address = address.trim();
         return address;
     } else{
-        console.log("Unable to get address");
+        //console.log("Unable to get address");
         return "No address;"
     }
     return address;
