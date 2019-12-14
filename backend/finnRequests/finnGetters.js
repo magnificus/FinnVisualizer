@@ -23,18 +23,30 @@ var options = {
   };
 
 fetchApartments = async() =>{
-    const response = await fetch(process.env.FINN_OSLO);
-    const text = await response.text();
-    var matches = text.match(regexHelpers.finnApartmentRegex);
 
-    matches = matches.map(m => regexHelpers.matchToApartment(m));
-    matches = matches.filter(m => Apartment.IsValidApartment(m));
-    
-    
-    var geocoder = NodeGeocoder(options);
-    await Promise.all(matches.map((apartment) => geocodeApartment(geocoder, apartment))).then(function(res){matches = res;}).catch(function(err){console.log("error: " + err);});
-    await Promise.all(matches.map(apartment => apartment.save()))
+    var currPage = 0;
+    while (true){
+        // continue this until we're out of pages
+        const response = await fetch(process.env.FINN_OSLO + "&page="+currPage);
+        const text = await response.text();
+        var matches = text.match(regexHelpers.finnApartmentRegex);
+        //console.log("matches: " + matches.length);
 
+        if (matches.length < 5){
+            break;
+        }
+
+        matches = matches.map(m => regexHelpers.matchToApartment(m));
+        matches = matches.filter(m => Apartment.IsValidApartment(m));
+        
+        
+        var geocoder = NodeGeocoder(options);
+        await Promise.all(matches.map((apartment) => geocodeApartment(geocoder, apartment))).then(function(res){matches = res;}).catch(function(err){console.log("geocoder error: " + err);});
+        await Promise.all(matches.map(apartment => apartment.save()))
+        currPage++;
+    }
+
+    console.log("fetching complete");
 
     return matches;
  }

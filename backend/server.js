@@ -43,7 +43,7 @@ function PotentiallyUpdateDatabase(){
         var diffHours = (currDate - prevDate) / (1000 * 60 * 60); 
         console.log("diff hours: " + diffHours);
 
-        if (diffHours > 0.001){
+        if (diffHours > 1){
             connection.db.dropDatabase().then(function(res){
                 console.log("successfully dropped database, response:" + res);
                 createNewSettingDocument();
