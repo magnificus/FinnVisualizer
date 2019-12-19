@@ -112,4 +112,10 @@ function matchToApartment(input){
     return toReturn;
 }
 
+function determineIfValidPage(input){
+    
+
+}
+
+
 module.exports= {finnApartmentRegex,matchToApartment};

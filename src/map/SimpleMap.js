@@ -10,10 +10,6 @@ const AnyReactComponent = ({ text }) => <div>{text.toString()}</div>;
  
 class SimpleMap extends Component {
 
-  constructor(){
-    super();
-    //this.setState({apartments : {}});
-  }
 
   static defaultProps = {
     center: {
@@ -27,7 +23,7 @@ class SimpleMap extends Component {
   apartmentMarkers(){
 
 
-    if (this == undefined || this.state == undefined || this.state.apartments == undefined){
+    if (!this.state || !this.state.apartments){
       return;
     } else{
       console.log("rendering apartments");
